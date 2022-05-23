@@ -35,12 +35,14 @@ export default function Navbar() {
           <a href="#" className='font-semibold text-md'>Discover</a>
           <a href="#" className='font-semibold text-md'>About</a>
           <a href="#" className='font-semibold text-md'>Safety</a>
-          {/* divider */}
-          <div className='mt-3 md:mt-0 flex flex-col md:flex-row items-center md:space-x-4'>
+
+          {/* -- divider -- */}
+
+          {/* user nav */}
+          {/* <div className='mt-3 md:mt-0 flex flex-col md:flex-row items-center md:space-x-4'>
             <div className='flex items-center'>
               <a href="#" className='flex items-center'>
                 <Image src={profileImg} alt="Profile image" w="40px" h="40px" />
-                {/* caret */}
                 <CaretDown />
               </a>
             </div>
@@ -48,7 +50,7 @@ export default function Navbar() {
               <a href="#" className='mt-3 md:mt-0 p-2 px-4 border border-2 border-brand-purple border-opacity-30 text-brand-purple rounded-full font-semibold text-md'>My events</a>
               <a className='mt-3 md:mt-0 p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md' href="#">Create event</a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Image from "next/image";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -6,6 +7,10 @@ import heroImage from '../public/hero-image.jpg'
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>Your points</title>
+      </Head>
+
       {/* navbar */}
       <Navbar />
       {/* hero */}
@@ -19,7 +24,8 @@ export default function Home() {
             <h1 className="font-semibold text-xl text-brand-black">Your coins</h1>
             <div className="flex justify-between">
               <h2 className="font-bold text-brand-purple text-3xl md:text-5xl">4500 coins</h2>
-              <button className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Use coins</button>
+
+              {/* <button className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Use coins</button> */}
             </div>
           </div>
 
