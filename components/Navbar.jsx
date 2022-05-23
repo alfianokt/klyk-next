@@ -45,7 +45,7 @@ export default function Navbar() {
               </a>
             </div>
             <div className='flex flex-col md:flex-row md:space-x-3 items-center justify-center'>
-              <a href="#" className='mt-3 md:mt-0 p-2 px-4 border border-2 border-brand-purple border-opacity-30 textu-brand-purple rounded-full font-semibold text-md'>My events</a>
+              <a href="#" className='mt-3 md:mt-0 p-2 px-4 border border-2 border-brand-purple border-opacity-30 text-brand-purple rounded-full font-semibold text-md'>My events</a>
               <a className='mt-3 md:mt-0 p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md' href="#">Create event</a>
             </div>
           </div>
