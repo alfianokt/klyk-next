@@ -24,11 +24,11 @@ export default function Footer() {
         </div>
 
         <div className='mt-6 flex flex-col-reverse md:flex-row justify-between'>
-          <div>
+          <div className='mt-3 md:mt-0'>
             <p className='text-brand-grey font-normal text-base'>© 2020 Klyk Communications, LTD. All rights reserved.</p>
           </div>
           <div className='flex items-center space-x-4'>
-            <div className='mb-4 md:mb-0'>
+            <div className='flex justify-center'>
               <p>Follow and like us:</p>
             </div>
             <div className='flex space-x-4'>
