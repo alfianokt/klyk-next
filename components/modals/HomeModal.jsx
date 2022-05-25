@@ -1,4 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import ArrowRightIcon from '../icons/ArrowRightIcon'
 import CrossIcon from '../icons/CrossIcon'
@@ -47,13 +48,17 @@ export default function HomeModal({
                 </div>
 
                 <div className="mt-6 flex justify-center">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center items-center rounded-md border border-transparent bg-brand-purple px-4 py-2 text-sm font-medium text-white hover:bg-opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 font-bold"
-                    onClick={closeModal}
-                  >
-                    Get Coin <span><ArrowRightIcon /></span>
-                  </button>
+                  <Link href="/spin">
+                    <a>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center items-center rounded-md border border-transparent bg-brand-purple px-4 py-2 text-sm font-medium text-white hover:bg-opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 font-bold"
+                        onClick={closeModal}
+                      >
+                        Get Coin <span><ArrowRightIcon /></span>
+                      </button>
+                    </a>
+                  </Link>
 
                   {/* <button
                     type='button'
