@@ -1,10 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from 'react'
 import Footer from "../components/Footer";
+import HomeModal from "../components/modals/HomeModal";
 import Navbar from "../components/Navbar";
-import heroImage from '../public/hero-image.jpg'
+import heroImage from "../public/hero-image.jpg"
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Head>
@@ -14,6 +18,8 @@ export default function Home() {
       {/* navbar */}
       <Navbar />
       {/* hero */}
+
+      <HomeModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
 
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-7/12">
@@ -33,7 +39,7 @@ export default function Home() {
             <p className="font-normal text-md text-brand-black">Invite friends and get 10 free coins!</p>
             <div className="mt-3 flex justify-between space-x-6 ">
               <input className="w-full rounded border-brand-grey" type="text" placeholder="Email" />
-              <button className="p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md">Submit</button>
+              <button className="p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md" onClick={() => setIsOpen(true)}>Submit</button>
             </div>
           </div>
         </div>
