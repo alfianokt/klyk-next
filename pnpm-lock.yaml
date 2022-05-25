@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@headlessui/react': ^1.6.2
   '@lukeed/uuid': ^2.0.0
   clsx: ^1.1.1
   eslint: 8.15.0
@@ -13,6 +14,7 @@ specifiers:
   windicss-webpack-plugin: ^1.7.2
 
 dependencies:
+  '@headlessui/react': 1.6.2_react-dom@18.1.0+react@18.1.0
   '@lukeed/uuid': 2.0.0
   clsx: 1.1.1
   mongoose: 6.3.4
@@ -63,6 +65,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@headlessui/react/1.6.2_react-dom@18.1.0+react@18.1.0:
+    resolution: {integrity: sha512-x+kbTjJ+ixgsignqUU9MluoZYBJAlIYMeya4w7dk/Mo13vIdI/mSnzJAVgHhHKzE/hX//+rXylr4jUVThuQq/A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    dev: false
 
   /@humanwhocodes/config-array/0.9.5:
     resolution: {integrity: sha512-ObyMyWxZiCu/yTisA7uzx81s40xR2fD5Cg/2Kq7G02ajkNubJf6BopgDTmDyc3U7sXpNKM8cYOw7s7Tyr+DnCw==}

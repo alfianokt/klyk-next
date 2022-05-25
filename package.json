@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.2",
     "@lukeed/uuid": "^2.0.0",
     "clsx": "^1.1.1",
     "mongoose": "^6.3.4",
