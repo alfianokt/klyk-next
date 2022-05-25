@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import logoImg from '../public/logo.png'
-import profileImg from '../public/profile.png'
-import CaretDown from './icons/CaretDown'
+// import profileImg from '../public/profile.png'
+// import CaretDown from './icons/CaretDown'
 import MenuIcon from './icons/MenuIcon'
 import CrossIcon from './icons/CrossIcon'
 import clsx from 'clsx'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -21,7 +22,9 @@ export default function Navbar() {
         {/* logo */}
         <div className='flex items-center justify-between'>
           <div>
-            <Image src={logoImg} alt="Website logo" />
+            <Link href="/">
+              <a><Image src={logoImg} alt="Website logo" /></a>
+            </Link>
           </div>
           <div className='block md:hidden'>
             <button onClick={() => setShowNavbar(!showNavbar)}>
@@ -33,8 +36,8 @@ export default function Navbar() {
         {/* navigation links */}
         <div className={navigationClass}>
           <a href="#" className='font-semibold text-md'>Discover</a>
-          <a href="#" className='font-semibold text-md'>About</a>
-          <a href="#" className='font-semibold text-md'>Safety</a>
+          <a href="https://ourklyk.com/about" className='font-semibold text-md'>About</a>
+          <a href="https://ourklyk.com/safety" className='font-semibold text-md'>Safety</a>
 
           {/* -- divider -- */}
 
