@@ -6,15 +6,6 @@ const InvitationListSchema = new Schema({
     ref: 'list_referal_link',
     required: true,
   },
-  userId: {
-    type: Types.ObjectId,
-    ref: 'users',
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
   email_address: {
     type: String,
     required: true,
