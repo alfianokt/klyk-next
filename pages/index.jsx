@@ -6,20 +6,27 @@ import { connect, User } from "../models";
 
 export async function getServerSideProps(context) {
   await connect();
-  const data = await User.findOne();
+  const data = await User.findOne({}, null, {
+    sort: {
+      createdAt: -1,
+    }
+  });
 
   if (!data) return { notFound: true }
 
   return {
-    props: { user_id: data.user_id },
+    props: {
+      user_name: data.name,
+      user_id: data.user_id,
+    },
   }
 }
 
-export default function Home({ user_id }) {
+export default function Home({ user_name, user_id }) {
   return (
     <>
       <Head>
-        <title>Your points</title>
+        <title>Hello</title>
       </Head>
 
       {/* navbar */}
@@ -27,10 +34,10 @@ export default function Home({ user_id }) {
       {/* hero */}
 
       <div className="min-h-[70vh] flex items-center justify-center">
-        <ul className="flex space-x-3">
+        <ul className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-3 items-center">
           <li>
             <Link href={"/invite/" + user_id}>
-              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Invite</a>
+              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Invite from {user_name} account</a>
             </Link>
           </li>
           <li>
