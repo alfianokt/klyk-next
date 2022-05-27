@@ -1,14 +1,21 @@
 import Head from "next/head";
-import Image from "next/image";
-import { useState } from 'react'
+import Link from "next/link";
 import Footer from "../components/Footer";
-import HomeModal from "../components/modals/HomeModal";
 import Navbar from "../components/Navbar";
-import heroImage from "../public/hero-image.jpg"
+import { connect, User } from "../models";
 
-export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
+export async function getServerSideProps(context) {
+  await connect();
+  const data = await User.findOne();
 
+  if (!data) return { notFound: true }
+
+  return {
+    props: { user_id: data.user_id },
+  }
+}
+
+export default function Home({ user_id }) {
   return (
     <>
       <Head>
@@ -19,30 +26,19 @@ export default function Home() {
       <Navbar />
       {/* hero */}
 
-      <HomeModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
-
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-7/12">
-          <Image src={heroImage} alt="Hero image" />
-        </div>
-        <div className="w-full md:w-5/12 p-3 md:p-6 flex flex-col justify-center space-y-8 md:space-y-12">
-          <div>
-            <h1 className="font-semibold text-xl text-brand-black">Your coins</h1>
-            <div className="flex justify-between">
-              <h2 className="font-bold text-brand-purple text-3xl md:text-5xl">4500 coins</h2>
-
-              {/* <button className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Use coins</button> */}
-            </div>
-          </div>
-
-          <div>
-            <p className="font-normal text-md text-brand-black">Invite friends and get 10 free coins!</p>
-            <div className="mt-3 flex justify-between space-x-6 ">
-              <input className="w-full rounded border-brand-grey" type="text" placeholder="Email" />
-              <button className="p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md" onClick={() => setIsOpen(true)}>Submit</button>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <ul className="flex space-x-3">
+          <li>
+            <Link href={"/invite/" + user_id}>
+              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Invite</a>
+            </Link>
+          </li>
+          <li>
+            <Link href={"/spin"}>
+              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Spin</a>
+            </Link>
+          </li>
+        </ul>
       </div>
 
       {/* footer */}
