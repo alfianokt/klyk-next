@@ -1,5 +1,7 @@
 import { v4 as uuid } from '@lukeed/uuid/secure';
 import { connect, User, ListReferalLink, InvitationList } from '../../../models';
+import dayjs from 'dayjs';
+
 const { INVITE_LIMIT = 3 } = process.env;
 
 /**
@@ -35,21 +37,27 @@ export default async function handler(req, res) {
     });
 
     // already invited
-    if (invitation_list) return res
-      .status(422)
-      .json({ ok: false, msg: 'Sorry, the email you input have already submitted 😔' });
+    if (invitation_list) {
+      return res
+        .status(422)
+        .json({ ok: false, msg: 'Sorry, the email you input have already submitted 😔' })
+    };
 
     // count list referal link
-    // todo: maybe add date filter
     const count_list_referal_link = await ListReferalLink
       .find({
         userId: user._id,
+        // filter date for 1 day
+        createdAt: {
+          $lt: dayjs(),
+          $gte: dayjs().subtract(1, 'd'),
+        },
       })
       .count();
 
     // invitation limit
     if (count_list_referal_link >= INVITE_LIMIT) {
-      res
+      return res
         .status(422)
         .json({ ok: false, msg: 'The invitations you sent have exceeded the daily limit 😔' });
     }
