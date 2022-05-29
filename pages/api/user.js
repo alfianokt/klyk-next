@@ -7,6 +7,7 @@
 
 import { v4 as uuid } from '@lukeed/uuid/secure';
 import { connect, User } from '../../models';
+import { users } from '../../lib/users';
 
 /**
  *
@@ -17,9 +18,10 @@ export default async function handler(req, res) {
   await connect();
 
   if (req.method == 'POST') {
+    const randomUser = () => users[Math.floor(Math.random() * users.length)];
     const user = await User.create({
       user_id: uuid(),
-      name: req.query.name || 'John',
+      name: req.query.name || randomUser(),
       total_point: 0,
     });
 
