@@ -187,7 +187,7 @@ export default function Home({ events, user_id, participant_count }) {
 
             <div className="mt-5">
               {JSON.parse(events).map((el, index) => (
-                <div className="mb-3">
+                <div className="mb-3" key={index}>
                   <Link href={`/form/${el.event_id}`}>
                     <div className="p-3 border w-full">
                       <h1 className="text-xl font-semibold flex justify-between">
