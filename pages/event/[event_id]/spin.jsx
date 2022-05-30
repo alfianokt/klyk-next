@@ -1,31 +1,42 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import { useDebounceFn } from 'ahooks';
+import { models } from "mongoose";
+import Footer from "../../../components/Footer";
+import Navbar from "../../../components/Navbar";
+import { connect } from "../../../models";
 
+export async function getServerSideProps(context) {
+  await connect();
+  const { event_id } = context.params;
+  const data = await models.Event.findOne({
+    event_id,
+  });
 
-export default function Spin() {
+  if (!data) return { notFound: true }
+
+  console.log(data);
+
+  const event_participants = await models.Participant.find({
+    eventId: data._id,
+  });
+
+  return {
+    props: {
+      event_participants: JSON.stringify(event_participants),
+    },
+  }
+}
+
+export default function Spin({ event_participants }) {
+  event_participants = JSON.parse(event_participants);
+  const [optCheckbox, setOptCheckbox] = useState("current");
   const canvasRef = useRef(null);
+  const textAreaRef = useRef(null);
   const [winnerName, setWinnerName] = useState('_______ ');
   const [isRender, setisRender] = useState(false);
-  const [options, setOptions] = useState([
-    // limit str 8
-    '#1',
-    '#2',
-    '#3',
-    '#4',
-    '#5',
-    '#6',
-    '#7',
-    '#8',
-    '#9',
-    '#10',
-    '#11',
-    '#12',
-    '#13',
-    '#14',
-  ]);
+  // const [options, setOptions] = useState([
+  const [options, setOptions] = useState(event_participants.map((el, index) => el.name));
 
   const colors = [
     '#EDFDFD',
@@ -138,6 +149,37 @@ export default function Spin() {
     drawRouletteWheel();
   }
 
+  const { run: textChange } = useDebounceFn(
+    /**
+     *
+     * @param {Event} event
+     */
+    (event) => {
+      if (optCheckbox == "list") {
+        setOptions(event.target.value.split("\n").map((el) => el).filter(el => el != ""));
+        drawRouletteWheel();
+      }
+    },
+    {
+      wait: 100,
+    },
+  );
+
+  /**
+   *
+   * @param {Event} event
+   */
+  const handleCheckChange = (event) => {
+    if (event.target.value == 'current') {
+      setOptCheckbox("current");
+      setOptions(event_participants.map((el, index) => el.name));
+      drawRouletteWheel();
+    } else {
+      setOptCheckbox("list");
+      setOptions(textAreaRef.current.value.split("\n").map((el) => el).filter(el => el != ""));
+      drawRouletteWheel();
+    }
+  };
 
   useEffect(() => {
     if (!isRender) {
@@ -157,8 +199,6 @@ export default function Spin() {
 
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-5/12">
-          {/* <button className="p-3 bg-blue-200 mr-3" onClick={insertParticipants}>insertParticipants</button>
-          <button className="p-3 bg-blue-200 mr-3 disabled:bg-blue-50" onClick={spin} disabled={true}>spin</button> */}
           <div className="flex items-center justify-center transform scale-60 md:scale-90 lg:scale-100">
             <canvas id="canvas" width="500" height="500" ref={canvasRef}></canvas>
           </div>
@@ -170,12 +210,27 @@ export default function Spin() {
 
           <div>
             <div className="mb-4 flex items-center space-x-2">
-              <input className="rounded-full text-brand-purple active:bg-brand-purple focus:ring-brand-purple" type="checkbox" id="check_current" value={"current"} defaultChecked={true} />
+              <input
+                className="rounded-full text-brand-purple active:bg-brand-purple focus:ring-brand-purple"
+                type="radio"
+                id="check_current"
+                value={"current"}
+                defaultChecked={true}
+                name="check"
+                onChange={handleCheckChange}
+              />
               <label htmlFor="check_current">Use current audience</label>
             </div>
 
             <div className="mb-4 flex items-center space-x-2">
-              <input className="rounded-full text-brand-purple active:bg-brand-purple focus:ring-brand-purple" type="checkbox" id="check_list" value={"list"} />
+              <input
+                className="rounded-full text-brand-purple active:bg-brand-purple focus:ring-brand-purple"
+                type="radio"
+                id="check_list"
+                value={"list"}
+                name="check"
+                onChange={handleCheckChange}
+              />
               <label htmlFor="check_list">Add new list (separate with enter)</label>
             </div>
             <div className="mt-3 flex justify-between space-x-6 ">
@@ -184,6 +239,8 @@ export default function Spin() {
                 type="text"
                 placeholder="Insert item..."
                 rows={6}
+                onChange={textChange}
+                ref={textAreaRef}
               />
             </div>
             <div className="mt-4 flex items-center space-x-3">

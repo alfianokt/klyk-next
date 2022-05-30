@@ -58,8 +58,13 @@ export default function Home({ user_name, user_id }) {
             </button>
           </li>
           <li>
-            <Link href={"/invite/" + user_id}>
-              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Invite from {user_name} account</a>
+            <Link href={`/invite/${user_id}`}>
+              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Invite from <strong className="font-bold">{user_name}</strong> account</a>
+            </Link>
+          </li>
+          <li>
+            <Link href={`/${user_id}/create_undian`}>
+              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Add <strong className="font-bold">{user_name}</strong> event</a>
             </Link>
           </li>
           <li>
