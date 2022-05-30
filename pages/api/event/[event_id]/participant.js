@@ -57,8 +57,6 @@ export default async function handler(req, res) {
       ]
     });
 
-    console.log(data_exists);
-
     // return not found
     if (data_exists) return res
       .status(422)

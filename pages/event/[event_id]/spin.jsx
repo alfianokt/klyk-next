@@ -15,8 +15,6 @@ export async function getServerSideProps(context) {
 
   if (!data) return { notFound: true }
 
-  console.log(data);
-
   const event_participants = await models.Participant.find({
     eventId: data._id,
   });
