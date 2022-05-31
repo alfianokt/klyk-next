@@ -1,6 +1,8 @@
 import { v4 as uuid } from '@lukeed/uuid/secure';
 import dayjs from 'dayjs';
 import { models } from 'mongoose';
+import isMobilePhone from 'validator/es/lib/isMobilePhone';
+import isEmail from 'validator/es/lib/isEmail';
 import { connect } from '../../../../models';
 
 /**
@@ -32,7 +34,7 @@ export default async function handler(req, res) {
     // validate name
     if (!user_name) return res
       .status(422)
-      .json({ ok: false, msg: 'name cant emty' });
+      .json({ ok: false, msg: 'Name cant emty' });
 
     // validate address
     if (!address) return res
@@ -43,11 +45,17 @@ export default async function handler(req, res) {
     if (!phone) return res
       .status(422)
       .json({ ok: false, msg: 'Phone date cant emty' });
+    if (!isMobilePhone(phone)) return res
+      .status(422)
+      .json({ ok: false, msg: 'Wrong phone format' });
 
     // validate email
     if (!email) return res
       .status(422)
-      .json({ ok: false, msg: 'Start date cant emty' });
+      .json({ ok: false, msg: 'Email cant emty' });
+    if (!isEmail(email)) return res
+      .status(422)
+      .json({ ok: false, msg: 'Wrong email format' });
 
     const data_exists = await models.Participant.findOne({
       eventId: event_data._id,
@@ -60,7 +68,7 @@ export default async function handler(req, res) {
     // return not found
     if (data_exists) return res
       .status(422)
-      .json({ ok: false, msg: 'email or phone already submited' });
+      .json({ ok: false, msg: 'Email or phone already submited' });
 
     const participant_id = uuid();
     await models.Participant.create({
