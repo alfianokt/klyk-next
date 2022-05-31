@@ -1,8 +1,9 @@
 import { v4 as uuid } from '@lukeed/uuid/secure';
 import dayjs from 'dayjs';
 import { models } from 'mongoose';
-import isMobilePhone from 'validator/es/lib/isMobilePhone';
-import isEmail from 'validator/es/lib/isEmail';
+import isMobilePhone from 'validator/lib/isMobilePhone';
+import isEmail from 'validator/lib/isEmail';
+import isLength from 'validator/lib/isLength';
 import { connect } from '../../../../models';
 
 /**
@@ -35,19 +36,28 @@ export default async function handler(req, res) {
     if (!user_name) return res
       .status(422)
       .json({ ok: false, msg: 'Name cant emty' });
+    if (!isLength(user_name, { min: 4, max: 30 })) return res
+      .status(422)
+      .json({ ok: false, msg: 'Name length min 4 and max 30' });
 
     // validate address
     if (!address) return res
       .status(422)
       .json({ ok: false, msg: 'Address cant emty' });
+    if (!isLength(address, { min: 4, max: 64 })) return res
+      .status(422)
+      .json({ ok: false, msg: 'Address length min 4 and max 64' });
 
     // validate phone
     if (!phone) return res
       .status(422)
       .json({ ok: false, msg: 'Phone date cant emty' });
-    if (!isMobilePhone(phone)) return res
+    if (!isMobilePhone(phone.toString(), "any", { strictMode: false })) return res
       .status(422)
       .json({ ok: false, msg: 'Wrong phone format' });
+    if (!isLength(phone, { min: 11, max: 15 })) return res
+      .status(422)
+      .json({ ok: false, msg: 'Phone length minimal 11 and max 15' });
 
     // validate email
     if (!email) return res
@@ -56,6 +66,9 @@ export default async function handler(req, res) {
     if (!isEmail(email)) return res
       .status(422)
       .json({ ok: false, msg: 'Wrong email format' });
+    if (!isLength(email, { min: 4, max: 50 })) return res
+      .status(422)
+      .json({ ok: false, msg: 'Name length minimal 4 and max 50' });
 
     const data_exists = await models.Participant.findOne({
       eventId: event_data._id,

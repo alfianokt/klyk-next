@@ -1,6 +1,8 @@
 import { v4 as uuid } from '@lukeed/uuid/secure';
 import { connect, User, ListReferalLink, InvitationList } from '../../../models';
 import dayjs from 'dayjs';
+import isEmail from 'validator/lib/isEmail';
+import isLength from 'validator/lib/isLength';
 
 const { INVITE_LIMIT = 3 } = process.env;
 
@@ -29,6 +31,12 @@ export default async function handler(req, res) {
     if (!email_address) return res
       .status(422)
       .json({ ok: false, msg: 'email cant null' });
+    if (!isEmail(email_address)) return res
+      .status(422)
+      .json({ ok: false, msg: 'Wrong email format' });
+    if (!isLength(email_address, { min: 4, max: 50 })) return res
+      .status(422)
+      .json({ ok: false, msg: 'Name length minimal 4 and max 50' });
 
     // check are already invited
     const invitation_list = await InvitationList.findOne({

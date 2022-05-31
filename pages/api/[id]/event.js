@@ -1,5 +1,7 @@
 import { v4 as uuid } from '@lukeed/uuid/secure';
-import { connect, User, Event } from '../../../models';
+import isDate from 'validator/lib/isDate';
+import { models } from 'mongoose';
+import { connect } from '../../../models';
 
 /**
  *
@@ -10,7 +12,7 @@ export default async function handler(req, res) {
   const { id: user_id } = req.query;
   await connect();
 
-  const user = await User.findOne({
+  const user = await models.User.findOne({
     user_id,
   });
 
@@ -25,20 +27,26 @@ export default async function handler(req, res) {
     // validate name
     if (!event_name) return res
       .status(422)
-      .json({ ok: false, msg: 'name cant emty' });
+      .json({ ok: false, msg: 'Name cant emty' });
 
     // validate start date
     if (!start_date) return res
       .status(422)
       .json({ ok: false, msg: 'Start date cant emty' });
+    if (!isDate(start_date)) return res
+      .status(422)
+      .json({ ok: false, msg: 'Start date format is invalid' });
 
     // validate end date
     if (!end_date) return res
       .status(422)
       .json({ ok: false, msg: 'End date cant emty' });
+    if (!isDate(end_date)) return res
+      .status(422)
+      .json({ ok: false, msg: 'End date format is invalid' });
 
     const event_id = uuid();
-    await Event.create({
+    await models.Event.create({
       userId: user._id,
       event_id,
       event_name,
@@ -48,19 +56,19 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       ok: true,
-      msg: 'event created',
+      msg: 'Event created',
       data: {
         event_id,
       }
     });
   } else if (req.method == "GET") {
-    const data = await Event.find({
+    const data = await models.Event.find({
       userId: user._id,
     });
 
     res.status(200).json({
       ok: true,
-      msg: 'event data',
+      msg: 'Event data',
       data,
     });
   } else {
