@@ -31,7 +31,7 @@ export default function Spin({ event_participants }) {
   const [optCheckbox, setOptCheckbox] = useState("current");
   const canvasRef = useRef(null);
   const textAreaRef = useRef(null);
-  const [winnerName, setWinnerName] = useState('_______ ');
+  const [winnerName, setWinnerName] = useState(null);
   const [isRender, setisRender] = useState(false);
   // const [options, setOptions] = useState([
   const [options, setOptions] = useState(event_participants.map((el, index) => el.name));
@@ -107,7 +107,7 @@ export default function Spin({ event_participants }) {
   }
 
   function spin() {
-    setWinnerName('_______ ');
+    setWinnerName(null);
 
     spinAngleStart = Math.random() * 10 + 10;
     spinTime = 0;
@@ -242,7 +242,7 @@ export default function Spin({ event_participants }) {
               />
             </div>
             <div className="mt-4 flex items-center space-x-3">
-              <p>Spin for {winnerName} winners</p>
+              <p>Spin for {winnerName ? (<strong className="font-bold">{winnerName}</strong>) : '_______'} winners</p>
               <button className="p-2 px-4 bg-brand-purple text-white rounded-full font-semibold text-md" onClick={() => spin()}>Submit</button>
             </div>
           </div>

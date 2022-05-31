@@ -67,11 +67,6 @@ export default function Home({ user_name, user_id }) {
               <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Add <strong className="font-bold">{user_name}</strong> event</a>
             </Link>
           </li>
-          <li>
-            <Link href={"/spin"}>
-              <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">Spin</a>
-            </Link>
-          </li>
         </ul>
       </div>
 

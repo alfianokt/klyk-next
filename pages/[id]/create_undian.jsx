@@ -190,15 +190,14 @@ export default function Home({ events, user_id, participant_count }) {
                 <div className="mb-3" key={index}>
                   <Link href={`/form/${el.event_id}`}>
                     <div className="p-3 border w-full">
-                      <h1 className="text-xl font-semibold flex justify-between">
+                      <h1 className="text-xl font-semibold flex flex-col md:flex-row justify-between">
                         <span>
                           {el.event_name}
                         </span>
                         <span className="text-brand-purple">{participant_count[index]} Participants</span>
                       </h1>
 
-
-                      <div className="mt-3 flex justify-between">
+                      <div className="mt-3 flex flex-col-reverse md:flex-row justify-between">
                         <div className="flex space-x-3">
                           <Link href={`/form/${el.event_id}`}>
                             <a className="p-2 px-4 bg-brand-purple bg-opacity-10 text-brand-purple rounded-full font-semibold text-md">
@@ -213,7 +212,7 @@ export default function Home({ events, user_id, participant_count }) {
                           </Link>
                         </div>
 
-                        <p className="mt-3 text-sm font-medium">
+                        <p className="mt-0 md:mt-3 mb-3 text-sm font-medium">
                           {dayjs(el.start_date).format("YYYY/MM/DD")} sampai {dayjs(el.end_date).format("YYYY/MM/DD")}
                         </p>
                       </div>
