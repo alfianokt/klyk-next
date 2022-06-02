@@ -25,18 +25,25 @@ export async function getServerSideProps(context) {
       event_name: data.event_name,
       end_date: dayjs(data.end_date).format("YYYY-MM-DD"),
       event_id,
+      isFormOpen: dayjs().unix() > dayjs(data.end_date, "DD/MM/YYYY").unix()
     },
   }
 }
 
-export default function Event({ event_name, event_id, end_date }) {
+export default function Event({ event_name, event_id, end_date, isFormOpen }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [buttonText, setButtonText] = useState("");
-  const [buttonAccent, setButtonAccent] = useState("primary");
-  const [onButtonClick, setOnButtonClick] = useState(() => { });
+  const [isLoading, setIsLoading] = useState(isFormOpen);
+  const [isOpen, setIsOpen] = useState(isFormOpen);
+  const [title, setTitle] = useState(isFormOpen ? "The event has ended" : "");
+  const [buttonText, setButtonText] = useState(isFormOpen ? "Okay" : "");
+  const [buttonAccent, setButtonAccent] = useState(isFormOpen ? "outline" : "primary");
+  const [onButtonClick, setOnButtonClick] = useState(isFormOpen ? (
+    () => {
+      return () => {
+        router.push('/');
+      }
+    }
+  ) : (() => { }));
 
   /**
    *
@@ -88,20 +95,20 @@ export default function Event({ event_name, event_id, end_date }) {
   }
 
   useEffect(() => {
-    if (dayjs().unix() > dayjs(end_date, "DD/MM/YYYY").unix()) {
-      if (!isOpen) {
-        setIsLoading(true);
-        setIsOpen(true);
-        setTitle("The event has ended");
-        setButtonText("Okay");
-        setButtonAccent("outline");
-        setOnButtonClick(() => {
-          return () => {
-            router.push('/');
-          }
-        });
-      }
-    }
+    // if (dayjs().unix() > dayjs(end_date, "DD/MM/YYYY").unix()) {
+    //   if (!isOpen) {
+    //     setIsLoading(true);
+    //     setIsOpen(true);
+    //     setTitle("The event has ended");
+    //     setButtonText("Okay");
+    //     setButtonAccent("outline");
+    //     setOnButtonClick(() => {
+    //       return () => {
+    //         router.push('/');
+    //       }
+    //     });
+    //   }
+    // }
   });
 
   return (
