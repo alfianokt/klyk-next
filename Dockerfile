@@ -13,4 +13,4 @@ COPY . /app
 RUN cd /app && npm run build
 
 EXPOSE 3000
-CMD ['npm', 'run', 'start']
+RUN npm run start
