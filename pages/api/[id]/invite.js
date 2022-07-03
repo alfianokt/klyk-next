@@ -90,7 +90,7 @@ export default async function handler(req, res) {
     const body = `
       <h1>Hello, ${email_address}</h1>
       <p>You invited by ${user.name}</p>
-      <a href="${referal_link}">Click here to view</a>
+      <a href="${process.env.BASE_URL}${referal_link}">Click here to view</a>
     `.trim();
     const send_email_status = await sendEmail(email_address, "Your friend invite you", body)
       .then((r) => {
