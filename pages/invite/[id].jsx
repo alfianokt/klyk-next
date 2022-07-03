@@ -62,7 +62,8 @@ export default function Home({ balance, user_id }) {
         setButtonAccent("primary");
         setOnButtonClick(() => {
           return () => {
-            router.push(data.data.referal_link);
+            // router.push(data.data.referal_link);
+            setIsOpen(false);
           }
         });
       })
