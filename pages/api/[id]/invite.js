@@ -3,6 +3,7 @@ import { connect, User, ListReferalLink, InvitationList } from '../../../models'
 import dayjs from 'dayjs';
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
+import { sendEmail } from '../../../lib/email';
 
 const { INVITE_LIMIT = 3 } = process.env;
 
@@ -83,6 +84,20 @@ export default async function handler(req, res) {
         referalId: insert_list._id,
         email_address,
         status_invitation: 0,
+      });
+
+    // sending email
+    const body = `
+      <h1>Hello, ${email_address}</h1>
+      <p>You invited by ${user.name}</p>
+      <a href="${referal_link}">Click here to view</a>
+    `.trim();
+    const send_email_status = await sendEmail(email_address, "Your friend invite you", body)
+      .then((r) => {
+        // handle success when sending email
+      })
+      .catch(err => {
+        // handle failed when sending email
       });
 
     res.status(200).json({ ok: true, msg: 'Thank you for inviting your friend 🎉', data: { referal_link } });

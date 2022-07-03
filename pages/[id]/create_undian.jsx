@@ -124,8 +124,8 @@ export default function Home({ events, user_id, participant_count }) {
         onButtonClick={onButtonClick}
       />
 
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-7/12">
+      <div className="flex flex-col md:flex-row overflow-hidden">
+        <div className="w-full md:w-7/12 transform scale-105">
           <Image src={heroImage} alt="Hero image" />
         </div>
         <div className="w-full md:w-5/12 p-3 md:p-6 flex flex-col justify-center">

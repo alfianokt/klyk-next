@@ -5,6 +5,7 @@ import isMobilePhone from 'validator/lib/isMobilePhone';
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
 import { connect } from '../../../../models';
+import { sendEmail } from '../../../../lib/email';
 
 /**
  *
@@ -92,6 +93,19 @@ export default async function handler(req, res) {
       phone,
       email,
     });
+
+    // sending email
+    const body = `
+      <h1>Hello, ${user_name}</h1>
+      <p>You invited to join the event</p>
+    `.trim();
+    const send_email_status = await sendEmail(email, "Your friend invite you", body)
+      .then((r) => {
+        // handle success when sending email
+      })
+      .catch(err => {
+        // handle failed when sending email
+      });
 
     res.status(200).json({
       ok: true,
